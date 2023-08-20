@@ -15,7 +15,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import co.ebird.hotspot.utils.Constants;
 
-import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isPresent;
+import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.*;
 
 public class GetBird implements Interaction {
 
@@ -25,25 +25,26 @@ public class GetBird implements Interaction {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-
-        String path = "//span[contains(text(), 'Bosques de Quebrada Sinifaná')]";
         actor.attemptsTo(
                 Scroll.to(By.cssSelector("div[data-activitybadge-ebirdapikey]")),
                 Scroll.to(By.cssSelector("#stats-heading"))
         );
-        Constants.strName = actor.asksFor(
-                Text.of(BirdPage.NAME).asString());
-        actor.attemptsTo(
-                Click.on(BirdPage.OBSERVATIONS).afterWaitingUntilPresent()
-        );
-        WaitUntil.the(BirdPage.OBSERVATIONS, isPresent());
-        Constants.strObservations = actor.asksFor(
-                Text.of(BirdPage.OBSERVATIONS).asString());
-        WaitUntil.the(BirdPage.PHOTOS, isPresent());
-        Constants.strPhotos = actor.asksFor(
-                Text.of(BirdPage.PHOTOS).asString());
-        WaitUntil.the(BirdPage.SOUNDS, isPresent());
-        Constants.strSounds = actor.asksFor(
-                Text.of(BirdPage.SOUNDS).asString());
+        while ((Constants.strName == null || Constants.strName.trim().isEmpty())
+                || (Constants.strObservations == null || Constants.strObservations.trim().isEmpty())
+                || (Constants.strPhotos == null || Constants.strPhotos.trim().isEmpty())
+                || (Constants.strSounds == null) || Constants.strSounds.trim().isEmpty()) {
+            if (Constants.strName == null || Constants.strName.trim().isEmpty()){
+            Constants.strName = actor.asksFor(
+                    Text.of(BirdPage.NAME).asString());}
+            if (Constants.strObservations == null || Constants.strObservations.trim().isEmpty()){
+            Constants.strObservations = actor.asksFor(
+                    Text.of(BirdPage.OBSERVATIONS).asString());}
+            if (Constants.strPhotos == null || Constants.strPhotos.trim().isEmpty()){
+            Constants.strPhotos = actor.asksFor(
+                    Text.of(BirdPage.PHOTOS).asString());}
+            if (Constants.strSounds == null || Constants.strSounds.trim().isEmpty()){
+            Constants.strSounds = actor.asksFor(
+                    Text.of(BirdPage.SOUNDS).asString());}
+        }
     }
 }

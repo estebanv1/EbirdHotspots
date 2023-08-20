@@ -52,7 +52,6 @@ public class Login implements Task{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Ajá: " + actor.asksFor(Text.of(LoginPage.EXPLORE_BUTTON).asString()));
         actor.attemptsTo(
             Hit.the(Keys.ENTER).into((LoginPage.INPUT_CITY)),
             Click.on(LoginPage.ZOOM_BUTTON),
