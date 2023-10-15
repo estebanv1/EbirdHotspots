@@ -23,7 +23,7 @@ public class LoginPage extends PageObject{
     public static final Target ZOOM_BUTTON = Target.the("Button to reduce the zoom in the map")
             .locatedBy("/html/body/div[2]/div/div[2]/div[1]/div/div[1]/div/div[4]/div/div/div/button[2]");
     public static final Target HOTSPOT_MARK = Target.the("Where we select the hotspot")
-            .locatedBy("*[title*=\"Bosques de Quebrada Sinifaná\"]");
+            .locatedBy("*[title*=\"%s\"]");
     public static final Target HOTSPOT_BUTTON = Target.the("Button to open the hotspot")
             .locatedBy("//a[contains(text(),'Mostrar detalles')]");
 }

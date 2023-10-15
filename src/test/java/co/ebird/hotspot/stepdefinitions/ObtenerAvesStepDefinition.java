@@ -17,13 +17,7 @@ import java.util.Map;
 
 public class ObtenerAvesStepDefinition {
 
-    @DataTableType
-    public LoginData loginDataEntry(Map<String, String> entry) {
-        return new LoginData(
-                entry.get("strUsername"),
-                entry.get("strPassword")
-        );
-    }
+
 
     @Before
     public void setStage () {
@@ -32,16 +26,19 @@ public class ObtenerAvesStepDefinition {
 
     @Dado("que quiero obtener la abundancia de las aves")
     public void queQuieroObtenerLaAbundanciaDeLasAves() {
+        System.out.println("ACÁ1");
         OnStage.theActorCalled("Esteban").wasAbleTo(OpenUp.thePage());
+        System.out.println("ACÁ");
     }
-    @Cuando("ingreso al hotspot")
-    public void ingresoAlHotspot(List<LoginData> loginData) {
+    @Cuando("^ingreso con el usuario (.*) y la contrasena (.*) al hotspot (.*) de la ciudad (.*)$")
+    public void ingresoAlHotspot(String strUsername, String strPassword, String hotspot, String city) {
+        LoginData loginData= new LoginData(strUsername, strPassword);
         OnStage.theActorInTheSpotlight().attemptsTo(
-                Login.onThePage(loginData.get(0))
+                Login.onThePage(loginData, city, hotspot)
         );
     }
-    @Entonces("extraigo la información de las aves")
-    public void extraigoLaInformaciónDeLasAves() {
+    @Entonces("extraigo la informacion de las aves")
+    public void extraigoLaInformacionDeLasAves() {
         OnStage.theActorInTheSpotlight().attemptsTo(
                 GetTheBirds.fromTheHotspot()
         );

@@ -17,6 +17,7 @@ public class OpenUp implements Task {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
+        ebirdPage.setDefaultBaseUrl("https://www.ebird.org");
         actor.attemptsTo(
                 Open.browserOn(ebirdPage),
                 Browser.maximize()
