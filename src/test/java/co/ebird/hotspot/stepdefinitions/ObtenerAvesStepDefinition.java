@@ -1,23 +1,18 @@
 package co.ebird.hotspot.stepdefinitions;
 
 import co.ebird.hotspot.models.LoginData;
-import co.ebird.hotspot.tasks.GetTheBirds;
-import co.ebird.hotspot.tasks.Login;
-import co.ebird.hotspot.tasks.OpenUp;
+import co.ebird.hotspot.tasks.*;
 import io.cucumber.java.Before;
-import io.cucumber.java.DataTableType;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
 
-import java.util.List;
-import java.util.Map;
+import static co.ebird.hotspot.utils.Constants.PASSWORD;
+import static co.ebird.hotspot.utils.Constants.USERNAME;
 
 public class ObtenerAvesStepDefinition {
-
-
 
     @Before
     public void setStage () {
@@ -26,18 +21,33 @@ public class ObtenerAvesStepDefinition {
 
     @Dado("que quiero obtener la abundancia de las aves")
     public void queQuieroObtenerLaAbundanciaDeLasAves() {
-        System.out.println("ACÁ1");
-        OnStage.theActorCalled("Esteban").wasAbleTo(OpenUp.thePage());
-        System.out.println("ACÁ");
+        OnStage.theActorCalled("ebird user").wasAbleTo(OpenUp.thePage());
     }
-    @Cuando("^ingreso con el usuario (.*) y la contrasena (.*) al hotspot (.*) de la ciudad (.*)$")
-    public void ingresoAlHotspot(String strUsername, String strPassword, String hotspot, String city) {
-        LoginData loginData= new LoginData(strUsername, strPassword);
+
+    @Cuando("^ingreso con usuario y contraseña al hotspot (.*)$")
+    public void ingresoAlHotspot(String hotspotUrl) {
+        LoginData loginData = new LoginData(USERNAME, PASSWORD);
         OnStage.theActorInTheSpotlight().attemptsTo(
-                Login.onThePage(loginData, city, hotspot)
+                LoginToHotspot.byUrl(hotspotUrl, loginData)
         );
     }
-    @Entonces("extraigo la informacion de las aves")
+
+    @Cuando("^ingreso al hotspot (.*) cercano a (.*)$")
+    public void ingresoAlHotspotCercanoA(String hotspot, String place) {
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                GoToHotspot.byName(place, hotspot)
+        );
+    }
+
+    @Cuando("^ingreso con usuario y contraseña al hotspot (.*) cercano a (.*)$")
+    public void ingresoAlHotspotConUsuarioYContrasena(String hotspot, String place) {
+        LoginData loginData = new LoginData(USERNAME, PASSWORD);
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                Login.onThePage(loginData, place, hotspot)
+        );
+    }
+
+    @Entonces("extraigo la información de las aves")
     public void extraigoLaInformacionDeLasAves() {
         OnStage.theActorInTheSpotlight().attemptsTo(
                 GetTheBirds.fromTheHotspot()

@@ -1,9 +1,5 @@
 package co.ebird.hotspot.tasks;
 
-import co.ebird.hotspot.models.LoginData;
-
-import static co.ebird.hotspot.exceptions.HotspotException.ASSERT_GO_TO_HOTSPOT;
-import static co.ebird.hotspot.userinterfaces.LoginPage.*;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.Tasks;
@@ -14,30 +10,27 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Keys;
 
-public class Login implements Task{
+import static co.ebird.hotspot.exceptions.HotspotException.ASSERT_GO_TO_HOTSPOT;
+import static co.ebird.hotspot.userinterfaces.LoginPage.*;
 
-    private static final Logger LOGGER = LogManager.getLogger(Login.class);
-    private final LoginData loginData;
+public class GoToHotspot implements Task{
+
+    private static final Logger LOGGER = LogManager.getLogger(GoToHotspot.class);
     private final String place;
     private final String hotspot;
 
-    public Login(LoginData loginData, String place, String hotspot) {
-        this.loginData = loginData;
+    public GoToHotspot(String place, String hotspot) {
         this.place = place;
         this.hotspot = hotspot;
     }
 
-    public static Login onThePage(LoginData loginData, String city, String hotspot) {
-        return Tasks.instrumented(Login.class, loginData, city, hotspot);
+    public static GoToHotspot byName(String city, String hotspot) {
+        return Tasks.instrumented(GoToHotspot.class, city, hotspot);
     }
 
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-            Click.on(LOG_IN_LINK),
-            Enter.theValue(loginData.getStrUsername()).into(INPUT_USERNAME),
-            Enter.theValue(loginData.getStrPassword()).into(INPUT_PASSWORD),
-            Click.on(LOGIN_BUTTON),
             Click.on(EXPLORE_BUTTON),
             Click.on(HOTSPOTS_BUTTON),
             Enter.theValue(place.substring(0, place.length() - 1)).into(INPUT_PLACE)

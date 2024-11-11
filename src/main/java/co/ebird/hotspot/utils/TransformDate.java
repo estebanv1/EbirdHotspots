@@ -1,16 +1,23 @@
 package co.ebird.hotspot.utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TransformDate {
+
+    private TransformDate() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    private static final Logger LOGGER = LogManager.getLogger(TransformDate.class);
 
     public static String toFormat(String strDate) {
         String[] date = strDate.split(" ");
         String day = ("0" + date[0]).substring(date[0].length() - 1);
-        String month = date[1];
+        String month = date[1].replace(".", "");
         String year = date[2];
-        month = switch (month) {
+        String newMonth = switch (month) {
             case "ene" -> "01";
             case "feb" -> "02";
             case "mar" -> "03";
@@ -19,13 +26,16 @@ public class TransformDate {
             case "jun" -> "06";
             case "jul" -> "07";
             case "ago" -> "08";
-            case "sep" -> "09";
+            case "sept", "sep" -> "09";
             case "oct" -> "10";
             case "nov" -> "11";
             case "dic" -> "12";
             default -> "00";
         };
-        return day + "/" + month + "/" + year;
+        if (newMonth.equals("00")) {
+            LOGGER.log(Level.ERROR, "Error en el mes para la fecha: {}", strDate);
+        }
+        return day + "/" + newMonth + "/" + year;
     }
 
 

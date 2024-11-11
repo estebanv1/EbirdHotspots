@@ -4,22 +4,26 @@ import java.util.List;
 
 public class ExportUtil {
 
-    public static void printFrequencyHeaders() {
+    private ExportUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static String getFrequencyHeaders() {
+        StringBuilder frequencyHeaders = new StringBuilder();
         String[] months = {"ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov"};
         for (String month : months) {
             for (int i = 1; i < 5; i = i + 1) {
-                System.out.print(month + i);
-                System.out.print(",");
+                frequencyHeaders.append(month).append(i).append(", ");
             }
         }
-        System.out.println("dic1,dic2,dic3,dic4");
+        return String.valueOf(frequencyHeaders.append("dic1, dic2, dic3, dic4"));
     }
 
-    public static void printFrequencies(List<List<String>> birdsData, int index) {
+    public static String getFrequencies(List<List<String>> birdsData, int index) {
+        StringBuilder frequencies = new StringBuilder();
         for (int j = 0; j < 47; j = j + 1) {
-            System.out.print(birdsData.get(index).get(j + 5));
-            System.out.print(",");
+            frequencies.append(birdsData.get(index).get(j + 5)).append(", ");
         }
-        System.out.println(birdsData.get(index).get(52));
+        return String.valueOf(frequencies.append(birdsData.get(index).get(52)));
     }
 }
