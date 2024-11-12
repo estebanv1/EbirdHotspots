@@ -1,26 +1,25 @@
 # language: es
 # Autor: iop
 
-Característica: Extraer informacion de hotspots de ebird
-
-
 Característica: Extraer información de hotspots de ebird
 
   @BasicEbirdHotspotByURL
   Esquema del escenario: Extraer aves y sus números de un hotspot en ebird
     Dado que quiero obtener la abundancia de las aves
-    Cuando ingreso con usuario y contraseña al hotspot <hotspotUrl>
+    Cuando ingreso con usuario y contraseña al hotspot con url <hotspotUrl>
     Entonces extraigo la información de las aves
 
     Ejemplos:
+
       | hotspotUrl                                       |
+      #| https://ebird.org/hotspot/L2078942               |
       | https://ebird.org/hotspot/L20704259              |
 
 
   @BasicEbirdHotspotByName
   Esquema del escenario: Extraer aves y sus números de un hotspot en ebird
     Dado que quiero obtener la abundancia de las aves
-    Cuando ingreso al hotspot <hotspot> cercano a <lugar>
+    Cuando ingreso con usuario y contraseña al hotspot <hotspot> cercano a <lugar>
     Entonces extraigo la información de las aves
 
     Ejemplos:
@@ -49,15 +48,3 @@ Característica: Extraer información de hotspots de ebird
       #| Balcón de los Colibríes, Yarumal               | Yarumal, Antioquia, Colombia                   |
       #| Lago de Instituto Colombiano Agropecuario      | Autódromo Central Park                         |
       | El Porvenir                                    | El porvenir Rionegro                           |
-
-
-  @BasicEbirdHotspot
-  Esquema del escenario: Extraer aves y sus números de un hotspot en ebird
-    Dado que quiero obtener la abundancia de las aves
-    Cuando ingreso con usuario y contraseña al hotspot <hotspot> cercano a <lugar>
-    Entonces extraigo la información de las aves
-
-    Ejemplos:
-
-      | hotspot                                        | lugar                                          |
-      | Las Tangaras ProAves Reserve                   | Reserva ProAves Las Tangaras                   |
