@@ -24,7 +24,7 @@ public class ObtenerAvesStepDefinition {
         OnStage.theActorCalled("ebird user").wasAbleTo(OpenUp.thePage());
     }
 
-    @Cuando("^ingreso con usuario y contraseña al hotspot (.*)$")
+    @Cuando("^ingreso con usuario y contraseña al hotspot con url (.*)$")
     public void ingresoAlHotspot(String hotspotUrl) {
         LoginData loginData = new LoginData(USERNAME, PASSWORD);
         OnStage.theActorInTheSpotlight().attemptsTo(

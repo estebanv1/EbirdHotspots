@@ -4,15 +4,20 @@ import co.ebird.hotspot.models.LoginData;
 
 import static co.ebird.hotspot.exceptions.HotspotException.ASSERT_GO_TO_HOTSPOT;
 import static co.ebird.hotspot.userinterfaces.LoginPage.*;
+import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isPresent;
+
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.Tasks;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 import net.serenitybdd.screenplay.actions.Hit;
+import net.serenitybdd.screenplay.waits.WaitUntil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Keys;
+
+import java.time.Duration;
 
 public class Login implements Task{
 
@@ -58,13 +63,15 @@ public class Login implements Task{
             Thread.currentThread().interrupt();
         }
         actor.attemptsTo(
-            Hit.the(Keys.ENTER).into((INPUT_PLACE)),
-            Click.on(ZOOM_BUTTON),
-            Click.on(ZOOM_BUTTON),
-            Click.on(ZOOM_BUTTON),
-            Click.on(ZOOM_BUTTON),
-            Click.on(String.format(HOTSPOT_MARK.getCssOrXPathSelector(), hotspot)),
-            Click.on(HOTSPOT_BUTTON)
+                Hit.the(Keys.ENTER).into((INPUT_PLACE)),
+                Click.on(ZOOM_BUTTON),
+                Click.on(ZOOM_BUTTON),
+                Click.on(ZOOM_BUTTON),
+                Click.on(ZOOM_BUTTON),
+                WaitUntil.the(String.format(HOTSPOT_MARK.getCssOrXPathSelector(), hotspot), isPresent())
+                        .forNoMoreThan(Duration.ofSeconds(15)).then(
+                                Click.on(String.format(HOTSPOT_MARK.getCssOrXPathSelector(), hotspot))),
+                Click.on(HOTSPOT_BUTTON)
         );
     }
 }
